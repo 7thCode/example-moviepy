@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     local_root = FilePath("/Users/xxxx/Desktop/video")
     title = VideoFileClip(local_root.full_path('clip0.mp4'))
-    text_clip = TextClip('タイトル', fontsize=80, font='xxxx.ttc', color="white")
+    text_clip = TextClip('タイトル', fontsize=80, font=local_root.full_path('xxxx.ttc'), color="white")
     title_composite_clip = CompositeVideoClip([title, text_clip.set_pos(('center', 'center'))])
 
     title_clip = title_composite_clip.set_duration(title.duration)
