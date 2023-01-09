@@ -1,8 +1,9 @@
-from moviepy.editor import *
 import moviepy.video.fx.all as vfx
+from moviepy.editor import *
+
+from os.path import expanduser
 
 class FilePath:
-
     root = ""
 
     def __init__(self, root):
@@ -11,16 +12,17 @@ class FilePath:
     def full_path(self, filename):
         return os.path.join(self.root, filename)
 
+
 if __name__ == '__main__':
 
     # タイトルを合成したクリップと他２つのクリップをクロスフェードで繋いで、BGMを付けて最初と際顔をフェード。
 
-    local_root = FilePath("/Users/xxxx/Desktop/video")
-    title = VideoFileClip(local_root.full_path('clip0.mp4'))
-    text_clip = TextClip('タイトル', fontsize=80, font=local_root.full_path('xxxx.ttc'), color="white")
-    title_composite_clip = CompositeVideoClip([title, text_clip.set_pos(('center', 'center'))])
+    home = expanduser("~")
 
-    title_clip = title_composite_clip.set_duration(title.duration)
+    local_root = FilePath(home + "/Desktop/video")
+    title = VideoFileClip(local_root.full_path('clip0.mp4'))
+    text_clip = TextClip('タイトル', fontsize=80, font=local_root.full_path('ipag.ttf'), color="white").set_duration(title.duration)
+    title_clip = CompositeVideoClip([title, text_clip.set_pos(('center', 'center'))])
 
     cut_clip = VideoFileClip(local_root.full_path('clip1.mp4'))
     main_clip = cut_clip.subclip(0, 8)
@@ -30,17 +32,17 @@ if __name__ == '__main__':
     bgm_clip = AudioFileClip(local_root.full_path('bgm.m4a'))
 
     clips = [title_clip,
-            main_clip.set_start(5).crossfadein(1).audio_fadein(1),
-            end_clip.set_start(9).crossfadein(1).audio_fadein(1)]
+             main_clip.set_start(5).crossfadein(1).audio_fadein(1),
+             end_clip.set_start(9).crossfadein(1).audio_fadein(1)]
 
     composite_clip = CompositeVideoClip(clips)
     final_clip = composite_clip.set_audio(bgm_clip).set_duration(composite_clip.duration)
 
-    complete_clip = vfx.fadeout(vfx.fadein(final_clip, 1, initial_color=(255,255,255)), 1)
+    complete_clip = vfx.fadeout(vfx.fadein(final_clip, 1, initial_color=(255, 255, 255)), 1)
 
     complete_clip.write_videofile(
         local_root.full_path('final.mp4'),
         codec='libx264',
         audio_codec='aac',
-        temp_audiofile= 'final.m4a',
+        temp_audiofile='final.m4a',
         remove_temp=True)
