@@ -20,12 +20,17 @@ if __name__ == '__main__':
     home = expanduser("~")
 
     local_root = FilePath(home + "/Desktop/video")
-    title = VideoFileClip(local_root.full_path('clip0.mp4'))
-    text_clip = TextClip('タイトル', fontsize=80, font=local_root.full_path('ipag.ttf'), color="white").set_duration(title.duration)
-    title_clip = CompositeVideoClip([title, text_clip.set_pos(('center', 'center'))])
 
-    cut_clip = VideoFileClip(local_root.full_path('clip1.mp4'))
-    main_clip = cut_clip.subclip(0, 8)
+    titleback = VideoFileClip(local_root.full_path('clip0.mp4'))
+    title_text_clip = TextClip('タイトル', fontsize=80, font=local_root.full_path('ipag.ttf'), color="white").set_duration(titleback.duration)
+    title_clip = CompositeVideoClip([titleback, title_text_clip.set_pos(('center', 'center'))])
+
+    content = VideoFileClip(local_root.full_path('clip1.mp4'))
+    content_clip = content.subclip(0, 8)
+
+    screensize = (1800, 300)
+    subtitles_clip = TextClip('１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０',  kerning = -2, interline = -1, size = screensize, method = 'caption', fontsize=40, font=local_root.full_path('ipag.ttf'), color="white").set_duration(content.duration)
+    main_clip = CompositeVideoClip([content_clip, subtitles_clip.set_pos(('center', 'bottom'))])
 
     end_clip = VideoFileClip(local_root.full_path('clip2.mp4'))
 
