@@ -18,5 +18,9 @@ Desktop
          |- bgm.m4a     // bgm 
          |
          |- ipag.ttf    // font
-```         
+```
          
+# 参照
+```
+https://zulko.github.io/moviepy/
+```
